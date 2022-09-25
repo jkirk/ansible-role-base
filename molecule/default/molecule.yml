@@ -5,19 +5,23 @@ driver:
   name: docker
 platforms:
   - name: debian10
-    image: geerlingguy/docker-debian10-ansible
-    command: ${MOLECULE_DOCKER_COMMAND:-""}
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    image: docker.io/debian:buster-slim
+    dockerfile: Dockerfile_debian_buster.j2
     privileged: true
-    pre_build_image: true
+    pre_build_image: false
+    override_command: false
+    tmpfs:
+      - /run
+      - /tmp
   - name: debian11
-    image: geerlingguy/docker-debian11-ansible
-    command: ${MOLECULE_DOCKER_COMMAND:-""}
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    image: docker.io/debian:bullseye-slim
+    dockerfile: Dockerfile_debian_bullseye.j2
     privileged: true
-    pre_build_image: true
+    pre_build_image: false
+    override_command: false
+    tmpfs:
+      - /run
+      - /tmp
 provisioner:
   name: ansible
 verifier:

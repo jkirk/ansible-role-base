@@ -109,7 +109,7 @@
     path: /usr/bin/vim.basic
   when: not ansible_check_mode
 - name: Provide custom needrestart configuration
-  copy: src=files/needrestart/synpro.conf dest=/etc/needrestart/conf.d/synpro.conf owner=root group=root mode=0644
+  template: src=needrestart/synpro.conf.j2 dest=/etc/needrestart/conf.d/synpro.conf owner=root group=root mode=0644
 - name: Check for systemd-sysv
   shell: 'dpkg -l systemd-sysv | grep -e "^ii" -q'
   register: systemd_sysv_installed

@@ -5,9 +5,11 @@
 # Include configuration files found in /etc/chrony/conf.d.
 confdir /etc/chrony/conf.d
 
+{% if base_ntp_server is not defined %}
 # Use Debian vendor zone.
 pool 2.debian.pool.ntp.org iburst
 
+{% endif %}
 # Use time sources from DHCP.
 sourcedir /run/chrony-dhcp
 

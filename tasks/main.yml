@@ -28,6 +28,7 @@
       - acl
       - apt-dater-host
       - aptitude
+      - bsd-mailx
       - ca-certificates
       - curl
       - dbus

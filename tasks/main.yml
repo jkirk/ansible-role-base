@@ -42,6 +42,7 @@
       - lsof
       - man-db
       - moreutils
+      - most
       - needrestart
       - netcat-openbsd
       - parted

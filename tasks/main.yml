@@ -39,6 +39,7 @@
       - iotop
       - jq
       - ldnsutils
+      - lsof
       - man-db
       - moreutils
       - needrestart

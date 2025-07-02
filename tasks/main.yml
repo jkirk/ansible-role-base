@@ -49,6 +49,7 @@
       - rsync
       - screen
       - socat
+      - strace
       - tmux
       - unzip
       - vim

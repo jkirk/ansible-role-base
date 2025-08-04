@@ -35,7 +35,7 @@ deb http://archive.debian.org/debian stretch-backports main contrib non-free'
 deb http://archive.debian.org/debian buster-backports main contrib non-free
 {% elif ansible_distribution_release == 'bullseye' %}
 # WARN: EOL since 2024-08 (main)
-deb {{ base_debian_mirror }} bullseye-backports main contrib non-free
+deb http://archive.debian.org/debian bullseye-backports main contrib non-free
 {% else %}{# ansible_distribution_release == 'wheezy' #}
 deb {{ base_debian_mirror }} {{ ansible_distribution_release }}-backports main contrib non-free-firmware
 {% endif %}{# ansible_distribution_release == 'wheezy' #}

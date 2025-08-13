@@ -39,8 +39,10 @@
       - iotop
       - jq
       - ldnsutils
+      - lsof
       - man-db
       - moreutils
+      - most
       - needrestart
       - netcat-openbsd
       - parted
@@ -48,6 +50,7 @@
       - rsync
       - screen
       - socat
+      - strace
       - tmux
       - unzip
       - vim

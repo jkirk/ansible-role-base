@@ -17,9 +17,9 @@ jobs:
     strategy:
       matrix:
         distro:
-          - debian10
           - debian11
           - debian12
+          - debian13
 
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."

@@ -68,6 +68,8 @@ deb {{ base_debian_mirror }} bullseye-updates main contrib non-free
 {% elif ansible_distribution_release == 'bookworm' %}
 # NOTE: supported until 2026-06-10 (main), 2028-06-30 (LTS) + 2033-06-30 (ELTS)
 deb {{ base_debian_mirror }} bookworm-updates main contrib non-free-firmware
+{% else %}
+deb {{ base_debian_mirror }} {{ ansible_distribution_release }}-updates main contrib non-free-firmware
 {% endif %}{# ansible_distribution_release == 'bullseye' #}
 {% endif %}{# base_enable_stable_updates #}
 {% if base_enable_elts %}

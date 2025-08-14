@@ -51,7 +51,7 @@ deb http://archive.debian.org/debian-security jessie/updates main contrib non-fr
 deb http://archive.debian.org/debian-security stretch/updates main contrib non-free
 {% elif ansible_distribution_release == 'buster' %}
 # NOTE: EOL since 2022-09-10 (main), 2024-06-30 (LTS), currently covered only by ELTS (until 2029-06-30)
-deb https://archive.debian.org buster/updates main contrib non-free
+deb https://archive.debian.org/debian-security buster/updates main contrib non-free
 {% elif ansible_distribution_release == 'bullseye' %}
 # NOTE: EOL since 2024-08-14 (main), currently covered by LTS (until 2026-08-31) + ELTS (until 2031-06-30)
 deb https://security.debian.org/debian-security bullseye-security main contrib non-free
@@ -62,7 +62,13 @@ deb https://security.debian.org/debian-security bookworm-security main contrib n
 deb https://security.debian.org/debian-security {{ ansible_distribution_release }}-security main contrib non-free-firmware
 {% endif %}{# ansible_distribution_release == 'wheezy' #}
 {% if base_enable_stable_updates %}
-{% if ansible_distribution_release == 'bullseye' %}
+{% if ansible_distribution_release in ['wheezy', 'jessie', 'stretch'] %}
+# WARN: {{ ansible_distribution_release}}-updates is EOL + not available any longer, not enabling therefore
+#deb https://archive.debian.org/debian {{ ansible_distribution_release }}-updates main contrib non-free
+{% elif ansible_distribution_release == 'buster' %}
+# NOTE: EOL since 2022-09-10 (main), 2024-06-30 (LTS), currently covered only by ELTS (until 2029-06-30)
+deb https://archive.debian.org/debian buster-updates main contrib non-free
+{% elif ansible_distribution_release == 'bullseye' %}
 # NOTE: EOL since 2024-08-14 (main), currently covered by LTS (until 2026-08-31) + ELTS (until 2031-06-30)
 deb {{ base_debian_mirror }} bullseye-updates main contrib non-free
 {% elif ansible_distribution_release == 'bookworm' %}
@@ -70,7 +76,7 @@ deb {{ base_debian_mirror }} bullseye-updates main contrib non-free
 deb {{ base_debian_mirror }} bookworm-updates main contrib non-free-firmware
 {% else %}
 deb {{ base_debian_mirror }} {{ ansible_distribution_release }}-updates main contrib non-free-firmware
-{% endif %}{# ansible_distribution_release == 'bullseye' #}
+{% endif %}{# ansible_distribution_release in ['wheezy', 'jessie', 'stretch'] #}
 {% endif %}{# base_enable_stable_updates #}
 {% if base_enable_elts %}
 {% if ansible_distribution_release == 'wheezy' %}

@@ -17,9 +17,13 @@
     - base_enable_elts == true
     - ansible_distribution_release == "wheezy" or ansible_distribution_release == "jessie" or ansible_distribution_release == "stretch" or ansible_distribution_release == "buster"
 
-- name: Make sure /etc/apt/debian.sources is absent
+- name: Make sure deb822-style apt + mirror files are are absent
   file:
-    path: /etc/apt/debian.sources
+    path:
+      - /etc/apt/debian.sources
+      - /etc/apt/sources.list.d/debian.sources
+      - /etc/apt/mirrors/debian.list
+      - /etc/apt/mirrors/debian-security.list
     state: absent
 
 - name: Provide /etc/apt/sources.list

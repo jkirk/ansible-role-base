@@ -50,6 +50,3 @@ jobs:
           VALIDATE_SPELL_CODESPELL: false
           # Workaround for Code style issues found in 9 files (unclear what the problem is)
           VALIDATE_YAML_PRETTIER: false
-          # Workaround for Code style issues found in README.md
-          VALIDATE_MARKDOWN_PRETTIER: false
-

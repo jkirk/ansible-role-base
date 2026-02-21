@@ -10,6 +10,8 @@ on:
   schedule:
     - cron: "42 3 * * 4"
 
+permissions: {}
+
 jobs:
   molecule:
     # Name the Job

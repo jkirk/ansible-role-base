@@ -17,14 +17,14 @@
     - base_enable_elts == true
     - ansible_distribution_release == "wheezy" or ansible_distribution_release == "jessie" or ansible_distribution_release == "stretch" or ansible_distribution_release == "buster"
 
-- name: Make sure deb822-style apt + mirror files are are absent
+- name: Make sure deb822-style apt + mirror files are absent
   ansible.builtin.file:
-    path:
-      - /etc/apt/debian.sources
-      - /etc/apt/sources.list.d/debian.sources
-      - /etc/apt/mirrors/debian.list
-      - /etc/apt/mirrors/debian-security.list
+    path: "{{ item }}"
     state: absent
+  loop:
+    - /etc/apt/mirrors/debian.list
+    - /etc/apt/mirrors/debian-security.list
+    - /etc/apt/sources.list.d/debian.sources
 
 - name: Provide /etc/apt/sources.list
   template: src=templates/apt/sources.list.j2 dest=/etc/apt/sources.list owner=root group=root mode=0644

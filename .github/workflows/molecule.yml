@@ -12,6 +12,9 @@ on:
 
 permissions: {}
 
+env:
+  ANSIBLE_ROLE: 'jkirk.base'
+
 jobs:
   molecule:
     # Name the Job
@@ -46,7 +49,7 @@ jobs:
       - name: Check out code base
         uses: actions/checkout@v6
         with:
-          path: 'jkirk.base'
+          path: ${{ env.ANSIBLE_ROLE }}
 
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
 
@@ -66,7 +69,7 @@ jobs:
 
       - name: Run molecule test
         run: molecule test
-        working-directory: 'jkirk.base'
+        working-directory: ${{ env.ANSIBLE_ROLE }}
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'

@@ -33,20 +33,6 @@
 
 - meta: flush_handlers
 
-- name: Configure (debconf) Mailer Type of postfix to Local only
-  ansible.builtin.debconf:
-    name: postfix
-    question: postfix/main_mailer_type
-    value: 'Local only'
-    vtype: string
-
-- name: Configure (debconf) Mailname of postfix
-  ansible.builtin.debconf:
-    name: postfix
-    question: postfix/mailname
-    value: "{{ ansible_fqdn }}"
-    vtype: string
-
 - name: Ensure base Debian package selection is installed
   ansible.builtin.apt:
     name:

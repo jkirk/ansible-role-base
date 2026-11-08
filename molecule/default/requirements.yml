@@ -1,4 +1,4 @@
 collections:
+# required for e.g. `alternatives` support
 - name: community.general
-  # required for e.g. `alternatives` support
-  version: 6.6.2
+  version: 11.4.10

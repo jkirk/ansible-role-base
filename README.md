@@ -4,13 +4,13 @@ base
 ![Lint Code Base](https://github.com/jkirk/ansible-role-base/actions/workflows/linter.yml/badge.svg)
 ![Ansible Molecule](https://github.com/jkirk/ansible-role-base/actions/workflows/molecule.yml/badge.svg)
 
-A simple ansible role to deploy our basic packages and settings:
+A simple Ansible role to deploy our basic packages and settings:
 
-- Disable ssh root login with password (note, no public key for user root is deployed)
+- Disable SSH root login with password (note, no public key for user root is deployed)
 - Deploy Extended LTS archive key for Debian/stretch, buster and soon bullseye
 - Deploy /etc/apt/sources.list for Debian systems
 - Install "base" Debian package selection
-- Install and set up an NTP deamon (if base_ntp_package is defined)
+- Install and set up an NTP daemon (if base_ntp_package is defined)
 - Install qemu-guest-agent if a VM is detected
 - Install "extended" base Debian package selection (smartmontools) for non-VMs
 - Set vim as default editor
@@ -41,7 +41,7 @@ None.
 Notes on NTP
 ------------
 
-To set up a NTP deamon, set the `base_ntp_package` variable.
+To set up a NTP daemon, set the `base_ntp_package` variable.
 
 Non-default / local time servers are (currently) not supported by this role.
 

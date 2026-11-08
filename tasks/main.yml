@@ -111,14 +111,16 @@
       - qemu-guest-agent
     state: present
   when:
-    ansible_system_vendor == "QEMU"
+    ansible_system_vendor == "QEMU" or ansible_virtualization_role == "guest"
+
 - name: Ensure extended base Debian package selection is installed (for non-VMs)
   apt:
     name:
       - smartmontools
     state: present
   when:
-    ansible_system_vendor != "QEMU"
+    ansible_virtualization_role == "host"
+
 - name: Set vim as default editor (update-alternative)
   alternatives:
     name: editor

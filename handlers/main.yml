@@ -2,13 +2,16 @@
 # handlers file for ansible-role-base
 
 - name: apt-get update
-  apt: update_cache=yes
+  ansible.builtin.apt:
+    update_cache: yes
 
 - name: ssh restart
-  service: name=ssh state=restarted
+  ansible.builtin.service:
+    name: ssh
+    state: restarted
 
 - name: ntp daemon restart
-  service:
+  ansible.builtin.service:
     name: "{{ base_ntp_package }}"
     state: restarted
   when: base_ntp_enable | bool

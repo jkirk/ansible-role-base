@@ -40,6 +40,8 @@ jobs:
         env:
           # To report GitHub Actions status checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Ansible file location for ansible-lint
+          ANSIBLE_DIRECTORY: .
           # Workaround for Error: File:[/github/workspace/files/ansible_facts.d/services.fact] is not executable
           VALIDATE_BASH_EXEC: false
           # Workaround for ansible_facts.d/services.fact
@@ -50,3 +52,4 @@ jobs:
           VALIDATE_YAML_PRETTIER: false
           # Workaround for Code style issues found in README.md
           VALIDATE_MARKDOWN_PRETTIER: false
+

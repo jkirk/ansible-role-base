@@ -1,9 +1,17 @@
 ---
 # defaults file for ansible-role-base
 
+# We switched from http to https as the default transport protocol because
+# https servers tend to work better than the http ones.
+#
+# Sometime http is still preferred, in case you use a apt proxy like
+# apt-cacher-ng, so this is configurable.
+
+base_apt_transport: https
+
 # The Debian mirror which is used in the sources.list file
 #
-base_debian_mirror: https://deb.debian.org/debian
+base_debian_mirror: "{{ base_apt_transport }}://deb.debian.org/debian"
 
 # Debian backports are disabled by default
 #

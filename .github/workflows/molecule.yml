@@ -33,8 +33,7 @@ jobs:
             python_version: "3.11.2"
             ansible_core: "2.14.18"
         target_distro:
-          # disabled until jkirk/ansible-role-base#40 is fixed
-          # - debian11
+          - debian11
           - debian12
           - debian13
 

@@ -3,6 +3,7 @@
   hosts: all
   become: true
   vars:
+    # Set base_ntp_enable: false because docker/podman can not start systemd services
     base_ntp_enable: false
     base_ntp_package: 'chrony'
     base_ntp_server: 'time.example.com prefer iburst'

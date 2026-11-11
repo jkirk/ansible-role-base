@@ -1,0 +1,4 @@
+collections:
+# required for e.g. `alternatives` support
+- name: community.general
+  version: 11.4.10

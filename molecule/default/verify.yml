@@ -6,7 +6,7 @@
   gather_facts: true
   tasks:
   - name: Deploy chrony with server configuration
-    copy:
+    ansible.builtin.copy:
       src: 'chrony.{{ ansible_distribution_release }}.example.conf'
       dest: '/etc/chrony/chrony.conf'
       mode: 0664
@@ -17,7 +17,7 @@
     diff: true
 
   - name: Assert generated default chrony with server configuration
-    assert:
+    ansible.builtin.assert:
       that:
         - not chrony_server_example_conf.changed
       msg: 'Unexpected change in /etc/chrony/chrony.conf'

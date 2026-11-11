@@ -3,18 +3,28 @@
 # and deploy basic grml-config for user root
 
 - name: Check if /etc/ssh/sshd_config exists
-  stat:
+  ansible.builtin.stat:
     path: /etc/ssh/sshd_config
   register: sshd_config
+
 - name: Disable ssh root login with password
-  lineinfile: dest=/etc/ssh/sshd_config regexp='^PermitRootLogin' state=absent
+  ansible.builtin.lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^PermitRootLogin'
+    state: absent
   when: sshd_config.stat.exists
   notify: ssh restart
+
 - name: Deploy /etc/apt/trusted.gpg.d/extended-lts-archive-key.gpg
-  copy: src=files/apt/extended-lts-archive-key.gpg dest=/etc/apt/trusted.gpg.d/extended-lts-archive-key.gpg owner=root group=root mode=0644
+  ansible.builtin.copy:
+    src: files/apt/extended-lts-archive-key.gpg
+    dest: /etc/apt/trusted.gpg.d/extended-lts-archive-key.gpg
+    owner: root
+    group: root
+    mode: 0644
   when:
     - base_enable_elts is defined
-    - base_enable_elts == true
+    - base_enable_elts
     - ansible_distribution_release == "wheezy" or ansible_distribution_release == "jessie" or ansible_distribution_release == "stretch" or ansible_distribution_release == "buster"
 
 - name: Make sure deb822-style apt + mirror files are absent
@@ -27,11 +37,17 @@
     - /etc/apt/sources.list.d/debian.sources
 
 - name: Provide /etc/apt/sources.list
-  template: src=templates/apt/sources.list.j2 dest=/etc/apt/sources.list owner=root group=root mode=0644
+  ansible.builtin.template:
+    src: templates/apt/sources.list.j2
+    dest: /etc/apt/sources.list
+    owner: root
+    group: root
+    mode: 0644
   notify: apt-get update
   when: ansible_distribution == 'Debian'
 
-- meta: flush_handlers
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
 
 - name: Ensure base Debian package selection is installed
   ansible.builtin.apt:
@@ -72,14 +88,14 @@
     state: present
 
 - name: Install apt-transport-https (for Debian/stretch)
-  apt:
+  ansible.builtin.apt:
     name:
       - apt-transport-https
     state: present
   when: ansible_distribution_release == 'stretch'
 
 - name: Install ntp client / daemon
-  apt:
+  ansible.builtin.apt:
     name:
       - "{{ base_ntp_package }}"
     state: present
@@ -88,7 +104,7 @@
     - base_ntp_package | length > 0
 
 - name: Deploy ntp client configuration (chrony.conf only)
-  template:
+  ansible.builtin.template:
     src: "chrony/chrony.{{ ansible_distribution_release }}.conf.j2"
     dest: /etc/chrony/chrony.conf
     mode: 0664
@@ -99,50 +115,71 @@
   notify: ntp daemon restart
 
 - name: Make sure ntp service is started + enabled
-  service:
+  ansible.builtin.service:
     name: "{{ base_ntp_package }}"
     state: started
     enabled: true
   when: base_ntp_enable | bool
 
 - name: Ensure extended base Debian package selection is installed (for VMs)
-  apt:
+  ansible.builtin.apt:
     name:
       - qemu-guest-agent
     state: present
   when:
-    ansible_system_vendor == "QEMU"
+    ansible_system_vendor == "QEMU" or ansible_virtualization_role == "guest"
+
 - name: Ensure extended base Debian package selection is installed (for non-VMs)
-  apt:
+  ansible.builtin.apt:
     name:
       - smartmontools
     state: present
   when:
-    ansible_system_vendor != "QEMU"
+    ansible_virtualization_role == "host"
+
 - name: Set vim as default editor (update-alternative)
-  alternatives:
+  community.general.alternatives:
     name: editor
     path: /usr/bin/vim.basic
   when: not ansible_check_mode
+
 - name: Provide custom needrestart configuration
-  template: src=needrestart/synpro.conf.j2 dest=/etc/needrestart/conf.d/synpro.conf owner=root group=root mode=0644
+  ansible.builtin.template:
+    src: needrestart/synpro.conf.j2
+    dest: /etc/needrestart/conf.d/synpro.conf
+    owner: root
+    group: root
+    mode: 0644
+
 - name: Check for systemd-sysv
-  shell: 'dpkg -l systemd-sysv | grep -e "^ii" -q'
+  ansible.builtin.shell: 'dpkg -l systemd-sysv | grep -e "^ii" -q'
   register: systemd_sysv_installed
   ignore_errors: true
   changed_when: false
   check_mode: false
+
 - name: Install libpam-systemd on Debian/jessie and later systems (with systemd-sysv)
-  apt:
+  ansible.builtin.apt:
     name:
       - libpam-systemd
     state: present
   when:
     systemd_sysv_installed.rc == 0
 - name: Create ansible facts.d directory
-  file: path=/etc/ansible/facts.d state=directory owner=root group=root mode=0755
+  ansible.builtin.file:
+    path: /etc/ansible/facts.d
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
 - name: Deploy custom ansible facts
-  copy: src=ansible_facts.d/services.fact dest=/etc/ansible/facts.d/services.fact owner=root group=root mode=0755
+  ansible.builtin.copy:
+    src: ansible_facts.d/services.fact
+    dest: /etc/ansible/facts.d/services.fact
+    owner: root
+    group: root
+    mode: 0755
 
 # Two-space indents feel comfortable to me, but do whatever you like.
 # vim:ff=unix ts=2 sw=2 ai expandtab

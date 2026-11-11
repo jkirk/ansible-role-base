@@ -8,3 +8,12 @@
     - name: Update apt
       ansible.builtin.apt:
         update_cache: true
+
+  tasks:
+    - name: Configure apt proxy (apt-cacher-ng)
+      ansible.builtin.copy:
+        dest: /etc/apt/apt.conf.d/01proxy
+        content: |
+          Acquire::http::Proxy "{{ apt_proxy }}";
+        mode: "0644"
+      when: apt_proxy | length > 0

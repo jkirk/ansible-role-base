@@ -25,7 +25,7 @@
   when:
     - base_enable_elts is defined
     - base_enable_elts
-    - ansible_distribution_release == "wheezy" or ansible_distribution_release == "jessie" or ansible_distribution_release == "stretch" or ansible_distribution_release == "buster"
+    - ansible_distribution_release == "wheezy" or ansible_distribution_release == "jessie" or ansible_distribution_release == "stretch" or ansible_distribution_release == "buster" or ansible_distribution_release == "bullseye"
 
 - name: Make sure deb822-style apt + mirror files are absent
   ansible.builtin.file:
